@@ -1,12 +1,27 @@
 name: BTC Balance Check
+
 on: 
+  push:
+    branches:
+      - main
   pull_request:
     branches:
       - main
+
 jobs:
-  check-env-win:
-    runs-on: windows-latest
+  check-btc-balance:
+    runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
       - name: Install dependencies
-        run: |
-          curl "http://localhost:3000"
+        run: npm install
+      
+      - name: Run BTC balance check
+        run: curl http://localhost:3000/
